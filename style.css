@@ -9,10 +9,19 @@ body {
     align-items: center;
   }
 
+/* Screen Container */
+
+
 /* Containers for Button Section */
-.button-container{
+.buttons-div  {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+}
+
+.bottom-container{
     border: 1px solid black;
-    height: 500px;
+    height: 400px;
     width: 400px;
     margin-top: auto;
     display: flex;
@@ -24,9 +33,11 @@ body {
     gap: 1px;
 }
 .clear-container {
-    height: 100px;
+    height: 50px;
     width: 400px;
-
+    justify-content: center;
+    align-content: center;
+    border: 1px solid black;
 }
 
 .number-container {
@@ -45,8 +56,8 @@ body {
     flex: 1;
 }
 .clear, .delete {
-    width: 100px;
-    height: 100px;
+    width: 198px;
+    height: 46px;
 }
 
 .number {
