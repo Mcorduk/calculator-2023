@@ -1,0 +1,109 @@
+body, html {
+    min-height: 100vh;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+/* Containers for Button Section */
+.button-container{
+    border: 1px solid black;
+    height: 500px;
+    width: 400px;
+    margin-top: auto;
+    display: flex;
+    
+}
+.number-container, .operations-container, .equals-container, .clear-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px;
+}
+.clear-container {
+    height: 100px;
+    width: 400px;
+
+}
+
+.number-container {
+    width: 298px;
+    height: 300px;
+    flex: 3;
+    margin-left: 1px;
+}
+
+.operations-container {
+    width: 100px;
+    height: 400px;
+    flex: 1;
+}
+.equals-container {
+    flex: 1;
+}
+.clear, .delete {
+    width: 100px;
+    height: 100px;
+}
+
+.number {
+    border: 1px solid black;
+    width: 98px;
+    height: 98px;
+}
+
+.operation{
+    width: 98px;
+    height: 98px;
+}
+
+.equals {
+    flex: 2;
+    padding: 0;
+    max-width:197px ;
+    background-color: #817F82;
+}
+
+.equals:hover {
+    background-color: #706D72;
+} 
+
+/* Individual Operations */
+.division {
+    background-color: #AE8CA3;
+}
+.division:hover {
+    background-color: #A28599;
+}
+
+.multiplication {
+    background-color: #A2ABB5;
+}
+
+.multiplication:hover {
+    background-color: #8D96A0;
+}
+
+.subtraction {
+    background-color: #6DD6DA;
+}
+
+.subtraction:hover {
+    background-color: #5EBBBE;
+}
+
+.addition {
+    background-color: #95D9DA;
+}
+
+.addition:hover {
+    background-color: #7ABBBC;
+}
+
+footer {
+    margin-top: auto;
+    padding: 50px;
+  }
