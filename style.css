@@ -1,4 +1,5 @@
-body, html {
+body,
+html {
     min-height: 100vh;
 }
 
@@ -7,43 +8,49 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
+}
 
 /* Screen Container */
 
 
 /* Containers for Button Section */
-.buttons-div  {
+.buttons-div {
     display: flex;
     flex-direction: column;
     margin-top: auto;
 }
 
-.bottom-container{
+.bottom-container {
     border: 1px solid black;
     height: 400px;
     width: 400px;
     margin-top: auto;
     display: flex;
-    
+    padding-top: 1px;
+    border-top: 0px;
 }
-.number-container, .operations-container, .equals-container, .clear-container{
+
+.number-container,
+.operations-container,
+.equals-container,
+.clear-container {
     display: flex;
     flex-wrap: wrap;
     gap: 1px;
 }
+
 .clear-container {
     height: 50px;
     width: 400px;
     justify-content: center;
     align-content: center;
     border: 1px solid black;
+    border-bottom: 0px;
 }
 
 .number-container {
     width: 298px;
     height: 300px;
-    flex: 3;
     margin-left: 1px;
 }
 
@@ -52,40 +59,37 @@ body {
     height: 400px;
     flex: 1;
 }
-.equals-container {
-    flex: 1;
-}
-.clear, .delete {
+
+/* General button styles */
+.clear,
+.delete {
     width: 198px;
-    height: 46px;
+    height: 49px;
 }
 
-.number {
+.number,.operation  {
     border: 1px solid black;
     width: 98px;
     height: 98px;
 }
 
-.operation{
-    width: 98px;
-    height: 98px;
-}
-
+/* Operation Colors and Color Hover Overs */
 .equals {
     flex: 2;
     padding: 0;
-    max-width:197px ;
+    max-width: 198px;
     background-color: #817F82;
+    border: 1px solid black;
 }
 
 .equals:hover {
     background-color: #706D72;
-} 
+}
 
-/* Individual Operations */
 .division {
     background-color: #AE8CA3;
 }
+
 .division:hover {
     background-color: #A28599;
 }
@@ -117,4 +121,4 @@ body {
 footer {
     margin-top: auto;
     padding: 50px;
-  }
+}
