@@ -1,7 +1,9 @@
-// This ugly global variable here for some reason.
+// Last Clicked operator held in this var
 let operator;
 const operatorArray = ["÷", "x", "-", "+"];
-var array = []
+
+var numbersAndOperationsArray = []
+// Store the number on display before any operation button was clicked
 currentNumber = ""
 
 /* Operate on given numbers and selected operator */
@@ -32,11 +34,11 @@ const operatorButtons = document.querySelectorAll('.operation');
 operatorButtons.forEach(button => {
     button.addEventListener('click', e => {
         operator = e.target.innerText;
-        if (currentNumber != ""){
-            array.push(currentNumber)
+        if (currentNumber != "") {
+            numbersAndOperationsArray.push(currentNumber)
             currentNumber = ""
         }
-        array.push(operator)
+        numbersAndOperationsArray.push(operator)
         writeToDisplay(operator);
     })
 });
@@ -48,7 +50,6 @@ numberButtons.forEach(button => {
         number = e.target.innerText;
         writeToDisplay(number)
         currentNumber += number
-        
     })
 });
 
@@ -71,8 +72,6 @@ const writeToDisplay = (item) => {
     document.querySelector("span").innerText = currentDisplay;
 }
 
-
-
 /* Calculate the screen */
 // Clear Screen 
 // Assign the result to num1
@@ -82,14 +81,13 @@ equalsButton.addEventListener('click', () => {
     if (checkForErrors = false) {
         return;
     }
-    if (currentNumber != ""){
-    array.push(currentNumber)
-    currentNumber = ""
+    if (currentNumber != "") {
+        numbersAndOperationsArray.push(currentNumber)
+        currentNumber = ""
     }
     document.querySelector("span").innerText = orderofOperations();
-    array = []
+    numbersAndOperationsArray = []
 });
-
 
 /*
     1- Check if your array has division OR multiplication
@@ -97,103 +95,47 @@ equalsButton.addEventListener('click', () => {
     3 - If multiplication, get the index
     4 - Which index is smaller? Operate on the smaller index
 
-    5 - If not multiplication, continue
+    5 - If not multiplication, or division, do it with addition and subtraction
 */
 
 function orderofOperations() {
     // For order of operations, first do division and multiplication
-    while (array.includes("x") || (array.includes("÷"))){
+    while (numbersAndOperationsArray.includes("x") || (numbersAndOperationsArray.includes("÷"))) {
         // if left to right, multiplication first do this
-        if (array.indexOf("x") > array.indexOf("÷")) {
-            let xIndex = array.indexOf("x");
-            let num1 = Number(array[xIndex - 1]);
-            let num2 = Number(array[xIndex + 1]);
-            array[xIndex + 1] = operation(num1,num2,"x")
-            array.splice(xIndex - 1 ,2)
-        // if left to right, division is first do this
-        }else if(array.indexOf("x") < array.indexOf("÷")){
-            let divIndex = array.indexOf("÷");
-            let num1 = Number(array[divIndex - 1]);
-            let num2 = Number(array[divIndex + 1]);
-            array[divIndex + 1] = operation(num1,num2,"÷")
-            array.splice(divIndex - 1 ,2)
+        if (numbersAndOperationsArray.indexOf("x") > numbersAndOperationsArray.indexOf("÷")) {
+            let xIndex = numbersAndOperationsArray.indexOf("x");
+            let num1 = Number(numbersAndOperationsArray[xIndex - 1]);
+            let num2 = Number(numbersAndOperationsArray[xIndex + 1]);
+            numbersAndOperationsArray[xIndex + 1] = operation(num1, num2, "x")
+            numbersAndOperationsArray.splice(xIndex - 1, 2)
+            // if left to right, division is first do this
+        } else if (numbersAndOperationsArray.indexOf("x") < numbersAndOperationsArray.indexOf("÷")) {
+            let divIndex = numbersAndOperationsArray.indexOf("÷");
+            let num1 = Number(numbersAndOperationsArray[divIndex - 1]);
+            let num2 = Number(numbersAndOperationsArray[divIndex + 1]);
+            numbersAndOperationsArray[divIndex + 1] = operation(num1, num2, "÷")
+            numbersAndOperationsArray.splice(divIndex - 1, 2)
         }
     }
-    while (array.includes("+") || (array.includes("-"))){
+    while (numbersAndOperationsArray.includes("+") || (numbersAndOperationsArray.includes("-"))) {
         // if left to right, multiplication first do this
-        if (array.indexOf("+") > array.indexOf("-")) {
-            let xIndex = array.indexOf("+");
-            let num1 = Number(array[xIndex - 1]);
-            let num2 = Number(array[xIndex + 1]);
-            array[xIndex + 1] = operation(num1,num2,"+")
-            array.splice(xIndex - 1 ,2)
-        // if left to right, division is first do this
-        }else if(array.indexOf("+") < array.indexOf("-")){
-            let divIndex = array.indexOf("-");
-            let num1 = Number(array[divIndex - 1]);
-            let num2 = Number(array[divIndex + 1]);
-            array[divIndex + 1] = operation(num1,num2,"-")
-            array.splice(divIndex - 1 ,2)
+        if (numbersAndOperationsArray.indexOf("+") > numbersAndOperationsArray.indexOf("-")) {
+            let xIndex = numbersAndOperationsArray.indexOf("+");
+            let num1 = Number(numbersAndOperationsArray[xIndex - 1]);
+            let num2 = Number(numbersAndOperationsArray[xIndex + 1]);
+            numbersAndOperationsArray[xIndex + 1] = operation(num1, num2, "+")
+            numbersAndOperationsArray.splice(xIndex - 1, 2)
+            // if left to right, division is first do this
+        } else if (numbersAndOperationsArray.indexOf("+") < numbersAndOperationsArray.indexOf("-")) {
+            let divIndex = numbersAndOperationsArray.indexOf("-");
+            let num1 = Number(numbersAndOperationsArray[divIndex - 1]);
+            let num2 = Number(numbersAndOperationsArray[divIndex + 1]);
+            numbersAndOperationsArray[divIndex + 1] = operation(num1, num2, "-")
+            numbersAndOperationsArray.splice(divIndex - 1, 2)
         }
     }
-    return array[0]
+    return numbersAndOperationsArray[0]
 }
-
-
-function updateNumbers() {
-    let num1;
-    let num2;
-    let currentNumber = num1;
-    let currentDisplay = document.querySelector("span").innerText;
-
-    // Pointer to keep track of where the numbers start since last operator
-    let ptr = 0
-    let i = 0
-    // i is the second pointer trying to find the next operator index
-    while (i < currentDisplay.length) {
-        i += 1
-        if (operatorArray.includes(currentDisplay[i])) {
-            num1 = Number(currentDisplay.slice(ptr, i));
-            currentNumber = num1
-            ptr = i + 1
-            let j = i + 1
-
-            while (j < currentDisplay.length
-                && !operatorArray.includes(currentDisplay[j])) {
-                j += 1;
-            }
-            num2 = Number(currentDisplay.slice(ptr, j));
-            num1 = operation(num1, num2, currentDisplay[i]);
-            currentNumber = num1;
-            // Update pointers for the next iteration
-            ptr = j;
-            i = j;
-            document.querySelector("span").innerText = num1;
-        }
-
-    }
-    return
-};
-
-function findNumbers(currentDisplay) {
-    
-    if (currentDisplay.includes("*")) {
-
-    }
-}
-
-
-// function checkForErrors() {
-//     let currentDisplay = document.querySelector("span").innerText;
-//     const lastItemAtDisplay = currentDisplay[currentDisplay.length - 1]
-//     if (operatorArray.includes(lastItemAtDisplay)) {
-//         document.querySelector("span").innerText = "That won't work."
-//         return false;
-//     }
-// }
-
-
-
 
 /* Clear Display when clear button is clicked */
 const clearDisplay = () => document.querySelector("span").innerText = "";
