@@ -10,24 +10,50 @@ body {
     align-items: center;
 }
 
-/* Screen Container */
 
+/* Screen Container */
+.screen-container {
+    height: 100px;
+    width: 400px;
+    border: 1px solid black;
+    border-bottom: 0px;
+    margin-top: auto;
+    background-color: gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+
+}
+
+.screen {
+    height: 80px;
+    width: 380px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 2px;
+
+    background-color: white;
+}
 
 /* Containers for Button Section */
 .buttons-div {
     display: flex;
     flex-direction: column;
-    margin-top: auto;
+    max-width: 400px;
 }
 
 .bottom-container {
     border: 1px solid black;
-    height: 400px;
+    height: 384px;
     width: 400px;
     margin-top: auto;
     display: flex;
     padding-top: 1px;
     border-top: 0px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 
 .number-container,
@@ -56,8 +82,11 @@ body {
 
 .operations-container {
     width: 100px;
-    height: 400px;
+    height: 388px;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 /* General button styles */
@@ -67,17 +96,29 @@ body {
     height: 49px;
 }
 
-.number,.operation  {
+.number,
+.operation {
     border: 1px solid black;
     width: 98px;
     height: 98px;
+}
+
+.equals-container .number, .equals, .addition {
+    max-height: 80px;
+}
+.addition {
+    border-bottom-right-radius: 6px;
+}
+.equals-container .number {
+    margin-left: 1px;
+    border-bottom-left-radius: 6px;
 }
 
 /* Operation Colors and Color Hover Overs */
 .equals {
     flex: 2;
     padding: 0;
-    max-width: 198px;
+    max-width: 197px;
     background-color: #817F82;
     border: 1px solid black;
 }
