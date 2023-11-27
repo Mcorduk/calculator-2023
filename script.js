@@ -1,14 +1,14 @@
-
+// This ugly global variable here for some reason.
 let operator;
-
-/* Functions for the seperate operations */
-const add = (a, b) => a + b;
-const subtract = (a, b) => a - b;
-const multiply = (a, b) => a * b;
-const divide = (a, b) => a / b;
+const operatorArray = ["÷", "x", "-", "+"];
 
 /* Operate on given numbers and selected operator */
 const operation = (num1, num2, operator) => {
+    /* Functions for the seperate operations */
+    const add = (a, b) => a + b;
+    const subtract = (a, b) => a - b;
+    const multiply = (a, b) => a * b;
+    const divide = (a, b) => a / b;
 
     switch (operator) {
         case "÷":
@@ -44,7 +44,7 @@ numberButtons.forEach(button => {
 
 /* General Function needed to write characters on calc display*/
 const writeToDisplay = (item) => {
-    const operatorArray = ["÷", "x", "-", "+"];
+
     let currentDisplay = document.querySelector("span").innerText;
     const length = currentDisplay.length;
     const lastItemAtDisplay = currentDisplay[length - 1]
@@ -66,12 +66,24 @@ const clearDisplay = () => document.querySelector("span").innerText = "";
 const clearButton = document.querySelector(".clear");
 clearButton.addEventListener('click', clearDisplay);
 
+const deleteDisplay = () => {
+    let currentDisplay = document.querySelector("span").innerText;
+    currentDisplay = currentDisplay.slice(0, -1);
+    document.querySelector("span").innerText = currentDisplay;
+}
+let deleteButton = document.querySelector(".delete");
+deleteButton.addEventListener('click', deleteDisplay);
+
+
 /* Calculate the screen */
 // Clear Screen 
 // Assign the result to num1
 // const calculateScreen = 
 const equalsButton = document.querySelector(".equals");
 equalsButton.addEventListener('click', () => {
+    if (checkForErrors = false) {
+        return;
+    }
     updateNumbers();
 });
 
@@ -80,35 +92,42 @@ function updateNumbers() {
     let num1;
     let num2;
     let currentNumber = num1;
-    
-    const operatorArray = ["÷", "x", "-", "+"];
     let currentDisplay = document.querySelector("span").innerText;
 
     // Pointer to keep track of where the numbers start since last operator
     let ptr = 0
     let i = 0
     // i is the second pointer trying to find the next operator index
-    while (i < currentDisplay.length){
+    while (i < currentDisplay.length) {
         i += 1
         if (operatorArray.includes(currentDisplay[i])) {
-                num1 = Number(currentDisplay.slice(ptr,i));
-                currentNumber = num1
-                ptr = i + 1
-                let j = i + 1
+            num1 = Number(currentDisplay.slice(ptr, i));
+            currentNumber = num1
+            ptr = i + 1
+            let j = i + 1
 
-                while (j < currentDisplay.length
-                 && !operatorArray.includes(currentDisplay[j])) {
-                    j += 1;
-                }
-                num2 = Number(currentDisplay.slice(ptr ,j));
-                num1 = operation(num1, num2, currentDisplay[i]);
-                currentNumber = num1;
-                // Update pointers for the next iteration
-                ptr = j;
-                i = j;
-                document.querySelector("span").innerText = num1;
+            while (j < currentDisplay.length
+                && !operatorArray.includes(currentDisplay[j])) {
+                j += 1;
+            }
+            num2 = Number(currentDisplay.slice(ptr, j));
+            num1 = operation(num1, num2, currentDisplay[i]);
+            currentNumber = num1;
+            // Update pointers for the next iteration
+            ptr = j;
+            i = j;
+            document.querySelector("span").innerText = num1;
         }
 
     }
-    return 
-} ;
+    return
+};
+
+// function checkForErrors() {
+//     let currentDisplay = document.querySelector("span").innerText;
+//     const lastItemAtDisplay = currentDisplay[currentDisplay.length - 1]
+//     if (operatorArray.includes(lastItemAtDisplay)) {
+//         document.querySelector("span").innerText = "That won't work."
+//         return false;
+//     }
+// }
