@@ -1,6 +1,8 @@
 // This ugly global variable here for some reason.
 let operator;
 const operatorArray = ["÷", "x", "-", "+"];
+var array = []
+currentNumber = ""
 
 /* Operate on given numbers and selected operator */
 const operation = (num1, num2, operator) => {
@@ -24,11 +26,17 @@ const operation = (num1, num2, operator) => {
     }
 };
 
+//#########BUTTON FUNCTIONALITY############
 /* Update operator variable each time the operator variable is clicked */
 const operatorButtons = document.querySelectorAll('.operation');
 operatorButtons.forEach(button => {
     button.addEventListener('click', e => {
         operator = e.target.innerText;
+        if (currentNumber != ""){
+            array.push(currentNumber)
+            currentNumber = ""
+        }
+        array.push(operator)
         writeToDisplay(operator);
     })
 });
@@ -37,8 +45,10 @@ operatorButtons.forEach(button => {
 const numberButtons = document.querySelectorAll('.number');
 numberButtons.forEach(button => {
     button.addEventListener('click', e => {
-        num1 = e.target.innerText;
-        writeToDisplay(num1)
+        number = e.target.innerText;
+        writeToDisplay(number)
+        currentNumber += number
+        
     })
 });
 
@@ -61,18 +71,6 @@ const writeToDisplay = (item) => {
     document.querySelector("span").innerText = currentDisplay;
 }
 
-/* Clear Display when clear button is clicked */
-const clearDisplay = () => document.querySelector("span").innerText = "";
-const clearButton = document.querySelector(".clear");
-clearButton.addEventListener('click', clearDisplay);
-
-const deleteDisplay = () => {
-    let currentDisplay = document.querySelector("span").innerText;
-    currentDisplay = currentDisplay.slice(0, -1);
-    document.querySelector("span").innerText = currentDisplay;
-}
-let deleteButton = document.querySelector(".delete");
-deleteButton.addEventListener('click', deleteDisplay);
 
 
 /* Calculate the screen */
@@ -84,8 +82,62 @@ equalsButton.addEventListener('click', () => {
     if (checkForErrors = false) {
         return;
     }
-    updateNumbers();
+    if (currentNumber != ""){
+    array.push(currentNumber)
+    currentNumber = ""
+    }
+    document.querySelector("span").innerText = orderofOperations();
+    array = []
 });
+
+
+/*
+    1- Check if your array has division OR multiplication
+    2 - If divison, get the index
+    3 - If multiplication, get the index
+    4 - Which index is smaller? Operate on the smaller index
+
+    5 - If not multiplication, continue
+*/
+
+function orderofOperations() {
+    // For order of operations, first do division and multiplication
+    while (array.includes("x") || (array.includes("÷"))){
+        // if left to right, multiplication first do this
+        if (array.indexOf("x") > array.indexOf("÷")) {
+            let xIndex = array.indexOf("x");
+            let num1 = Number(array[xIndex - 1]);
+            let num2 = Number(array[xIndex + 1]);
+            array[xIndex + 1] = operation(num1,num2,"x")
+            array.splice(xIndex - 1 ,2)
+        // if left to right, division is first do this
+        }else if(array.indexOf("x") < array.indexOf("÷")){
+            let divIndex = array.indexOf("÷");
+            let num1 = Number(array[divIndex - 1]);
+            let num2 = Number(array[divIndex + 1]);
+            array[divIndex + 1] = operation(num1,num2,"÷")
+            array.splice(divIndex - 1 ,2)
+        }
+    }
+    while (array.includes("+") || (array.includes("-"))){
+        // if left to right, multiplication first do this
+        if (array.indexOf("+") > array.indexOf("-")) {
+            let xIndex = array.indexOf("+");
+            let num1 = Number(array[xIndex - 1]);
+            let num2 = Number(array[xIndex + 1]);
+            array[xIndex + 1] = operation(num1,num2,"+")
+            array.splice(xIndex - 1 ,2)
+        // if left to right, division is first do this
+        }else if(array.indexOf("+") < array.indexOf("-")){
+            let divIndex = array.indexOf("-");
+            let num1 = Number(array[divIndex - 1]);
+            let num2 = Number(array[divIndex + 1]);
+            array[divIndex + 1] = operation(num1,num2,"-")
+            array.splice(divIndex - 1 ,2)
+        }
+    }
+    return array[0]
+}
 
 
 function updateNumbers() {
@@ -123,6 +175,14 @@ function updateNumbers() {
     return
 };
 
+function findNumbers(currentDisplay) {
+    
+    if (currentDisplay.includes("*")) {
+
+    }
+}
+
+
 // function checkForErrors() {
 //     let currentDisplay = document.querySelector("span").innerText;
 //     const lastItemAtDisplay = currentDisplay[currentDisplay.length - 1]
@@ -131,3 +191,19 @@ function updateNumbers() {
 //         return false;
 //     }
 // }
+
+
+
+
+/* Clear Display when clear button is clicked */
+const clearDisplay = () => document.querySelector("span").innerText = "";
+const clearButton = document.querySelector(".clear");
+clearButton.addEventListener('click', clearDisplay);
+
+const deleteDisplay = () => {
+    let currentDisplay = document.querySelector("span").innerText;
+    currentDisplay = currentDisplay.slice(0, -1);
+    document.querySelector("span").innerText = currentDisplay;
+}
+let deleteButton = document.querySelector(".delete");
+deleteButton.addEventListener('click', deleteDisplay);
