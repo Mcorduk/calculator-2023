@@ -1,5 +1,4 @@
-let num1;
-let num2;
+
 let operator;
 
 /* Functions for the seperate operations */
@@ -13,13 +12,13 @@ const operation = (num1, num2, operator) => {
 
     switch (operator) {
         case "÷":
-            return divide(a, b);
-        case "*":
-            return multiply(a, b);
+            return divide(num1, num2);
+        case "x":
+            return multiply(num1, num2);
         case "-":
-            return subtract(a, b);
+            return subtract(num1, num2);
         case "+":
-            return add(a, b);
+            return add(num1, num2);
         default:
             console.log("You've got a bug buds.");
     }
@@ -66,3 +65,50 @@ const writeToDisplay = (item) => {
 const clearDisplay = () => document.querySelector("span").innerText = "";
 const clearButton = document.querySelector(".clear");
 clearButton.addEventListener('click', clearDisplay);
+
+/* Calculate the screen */
+// Clear Screen 
+// Assign the result to num1
+// const calculateScreen = 
+const equalsButton = document.querySelector(".equals");
+equalsButton.addEventListener('click', () => {
+    updateNumbers();
+});
+
+
+function updateNumbers() {
+    let num1;
+    let num2;
+    let currentNumber = num1;
+    
+    const operatorArray = ["÷", "x", "-", "+"];
+    let currentDisplay = document.querySelector("span").innerText;
+
+    // Pointer to keep track of where the numbers start since last operator
+    let ptr = 0
+    let i = 0
+    // i is the second pointer trying to find the next operator index
+    while (i < currentDisplay.length){
+        i += 1
+        if (operatorArray.includes(currentDisplay[i])) {
+                num1 = Number(currentDisplay.slice(ptr,i));
+                currentNumber = num1
+                ptr = i + 1
+                let j = i + 1
+
+                while (j < currentDisplay.length
+                 && !operatorArray.includes(currentDisplay[j])) {
+                    j += 1;
+                }
+                num2 = Number(currentDisplay.slice(ptr ,j));
+                num1 = operation(num1, num2, currentDisplay[i]);
+                currentNumber = num1;
+                // Update pointers for the next iteration
+                ptr = j;
+                i = j;
+                document.querySelector("span").innerText = num1;
+        }
+
+    }
+    return 
+} ;
